@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tinder_carousel/widgets/avatar.dart';
+import 'package:tinder_carousel/widgets/bottom_bar.dart';
 import 'package:tinder_carousel/widgets/information.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -21,18 +22,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,16 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Avatar(url: "https://randomuser.me/api/portraits/women/90.jpg"),
               Information(title: "Name",data: "test",),
+              new Expanded(child: new Container()),
+              BottomAction(type: InformationType.personal)
             ],
           )
         ),
         )
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder_carousel/pages/home_page.dart';
+import 'package:tinder_carousel/simple_bloc_delegate.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
