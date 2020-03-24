@@ -5,7 +5,7 @@ import 'package:tinder_carousel/models/models.dart';
 class User extends Equatable{
   final String gender;
   final Map<String,dynamic> name; //title,first, last
-  final Map<String,dynamic> location; //street,city,state,postcode
+  final Location location; //street,city,state,postcode
   final String email;
   final LoginInfo login;  //
   final DateTime dob;
@@ -51,7 +51,7 @@ class User extends Equatable{
     return User(
       gender: result["gender"],
       name: result["name"],
-      location: result["location"],
+      location: Location.fromJson(result["location"]),
       email: result["email"],
       login: result["login"],
       dob: result["dob"],
