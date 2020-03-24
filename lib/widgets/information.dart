@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tinder_carousel/blocs/information/information_bloc.dart';
 
 enum InformationType {
   personal,
@@ -22,22 +24,53 @@ class Information extends StatefulWidget {
 class _InformationState extends State<Information> {
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      child: new Column(
-        children: <Widget>[
-          new Text(widget.title,
-          style: new TextStyle(
-            fontSize: 25,
-            color: Colors.grey
-          ),
-          ),
-          new Text(widget.data,
-          style: new TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold
-          ),)
-        ]
-      )
+    return BlocBuilder<InformationBloc, InformationState>(
+      builder: (context, state) {
+        if (state.informationType == InformationType.personal) {
+          return Center(child: new Column(
+            children: <Widget>[
+              new Text("Personal")
+            ],
+          ));
+        }
+        if (state.informationType == InformationType.email) {
+          return Center(child: new Column(
+            children: <Widget>[
+              new Text("Personal")
+            ],
+          ));
+        }
+        if (state.informationType == InformationType.location) {
+          return Center(child: new Column(
+            children: <Widget>[
+              new Text("location")
+            ],
+          ));
+        }
+        if (state.informationType == InformationType.phone) {
+          return Center(child: new Column(
+            children: <Widget>[
+              new Text("phone")
+            ],
+          ));
+        }
+        if (state.informationType == InformationType.lock) {
+          return Center(child: new Column(
+            children: <Widget>[
+              new Text("lock")
+            ],
+          ));
+        }
+        if (state.informationType == InformationType.personal) {
+          return Center(child: new Column(
+            children: <Widget>[
+              new Text("Personal")
+            ],
+          ));
+        }
+      
+        return Center(child: Text('Please Select a Location'));
+      },
     );
   }
 }

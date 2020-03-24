@@ -1,10 +1,13 @@
 
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
+import 'package:phone_number/phone_number.dart';
 import 'package:tinder_carousel/models/models.dart';
+import 'package:tinder_carousel/models/name.dart';
 
 class User extends Equatable{
   final String gender;
-  final Map<String,dynamic> name; //title,first, last
+  final Name name; //title,first, last
   final Location location; //street,city,state,postcode
   final String email;
   final LoginInfo login;  //
@@ -47,20 +50,27 @@ class User extends Equatable{
     nat];
 
   static User fromJson(dynamic result) {
+    print(result.toString());
+    //DateFormat dateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+  
+    try {
     return User(
       gender: result["gender"],
-      name: result["name"],
+      name: Name.fromJson(result["name"]),
       location: Location.fromJson(result["location"]),
       email: result["email"],
-      login: result["login"],
-      dob: result["dob"],
-      registered: result["registered"],
+      login: LoginInfo.fromJson(result["login"]),
+      dob: DateTime.parse(result["dob"]),
+      registered: DateTime.parse(result["registered"]),
       phone: result["phone"],
       cell: result["cell"],
       id: result["id"],
       picture: result["picture"],
       nat: result["nat"]
     );
+    } catch(e) {
+      print(e.toString());
+    }
   }  
 
 }

@@ -10,16 +10,20 @@ part 'information_state.dart';
 
 class InformationBloc extends Bloc<InformationEvent, InformationState> {
   @override
-  InformationState get initialState => InformationState(informationType: InformationType.personal);
+  InformationState get initialState => InformationEmpty();
 
   @override
   Stream<InformationState> mapEventToState(
     InformationEvent event,
   ) async* {
     if (event is InformationChanged) {
-      yield InformationState(
-        informationType: event.type,
-      );
-    }
+      yield InformationLoading();
+      try {
+    
+        yield InformationLoaded(informationType: event.type);
+      } catch (_) {
+        yield InformationError();
+      }
+  }
   }
 }

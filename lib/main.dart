@@ -13,16 +13,18 @@ void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
   
   runApp(
-    //MultiBlocProvider(
-      // providers: [
-      //   BlocProvider<UserBloc>(
-      //     create: (context) => UserBloc(),
-      //   ),
-        
-      // ],
-      // child: 
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<UserBloc>(
+          create: (context) => UserBloc(userRepository: userRepository),
+        ),
+        BlocProvider<InformationBloc>(
+          create: (context) => InformationBloc(),
+        ),
+      ],
+      child: 
       MyApp(userRepository: userRepository),
-    //),
+    ),
     );
 }
 
