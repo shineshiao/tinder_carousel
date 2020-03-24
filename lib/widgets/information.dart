@@ -25,8 +25,17 @@ class _InformationState extends State<Information> {
     return new Container(
       child: new Column(
         children: <Widget>[
-          new Text(widget.title),
-          new Text(widget.data)
+          new Text(widget.title,
+          style: new TextStyle(
+            fontSize: 25,
+            color: Colors.grey
+          ),
+          ),
+          new Text(widget.data,
+          style: new TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold
+          ),)
         ]
       )
     );

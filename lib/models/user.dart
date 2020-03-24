@@ -46,8 +46,7 @@ class User extends Equatable{
     picture,
     nat];
 
-  static User fromJson(dynamic json) {
-    final result = json["result"][0];
+  static User fromJson(dynamic result) {
     return User(
       gender: result["gender"],
       name: result["name"],

@@ -1,32 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder_carousel/pages/home_page.dart';
+import 'package:tinder_carousel/repositories/user.dart';
 import 'package:tinder_carousel/simple_bloc_delegate.dart';
 
+import 'blocs/information/information_bloc.dart';
+import 'blocs/user/user_bloc.dart';
+
 void main() {
+
+  final UserRepository userRepository = UserRepository();
   BlocSupervisor.delegate = SimpleBlocDelegate();
-  runApp(MyApp());
+  
+  runApp(
+    //MultiBlocProvider(
+      // providers: [
+      //   BlocProvider<UserBloc>(
+      //     create: (context) => UserBloc(),
+      //   ),
+        
+      // ],
+      // child: 
+      MyApp(userRepository: userRepository),
+    //),
+    );
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  final UserRepository userRepository;
+
+  MyApp({Key key, @required this.userRepository})
+      : assert(userRepository != null),
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+          title: 'Flutter Tinder',
+          home: BlocProvider(
+            create: (context) => UserBloc(
+              userRepository: userRepository,
+            ),
+            child: MyHomePage(title: "Flutter Tinder",),
+          ),
+        );
   }
 }
