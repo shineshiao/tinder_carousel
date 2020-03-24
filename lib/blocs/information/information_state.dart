@@ -1,22 +1,20 @@
 part of 'information_bloc.dart';
 
-abstract class InformationState extends Equatable {
-
-  final InformationType informationType;
-
-  const InformationState({@required this.informationType}):
-   assert(informationType != null);
+class InformationState extends Equatable {
+  const InformationState();
 
   @override
-  List<Object> get props => [informationType];
+  List<Object> get props => [];
 }
 
 class InformationInitial extends InformationState {
 }
 
-class InformationEmpty extends InformationState {}
+class InformationEmpty extends InformationState {
+}
 
-class InformationLoading extends InformationState {}
+class InformationLoading extends InformationState {
+}
 
 class InformationLoaded extends InformationState {
   final InformationType informationType;
@@ -28,4 +26,5 @@ class InformationLoaded extends InformationState {
   List<Object> get props => [informationType];
 }
 
-class InformationError extends InformationState {}
+class InformationError extends InformationState {
+}

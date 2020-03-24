@@ -1,7 +1,5 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
-import 'package:phone_number/phone_number.dart';
 import 'package:tinder_carousel/models/models.dart';
 import 'package:tinder_carousel/models/name.dart';
 
@@ -51,9 +49,6 @@ class User extends Equatable{
 
   static User fromJson(dynamic result) {
     print(result.toString());
-    //DateFormat dateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
-  
-    try {
     return User(
       gender: result["gender"],
       name: Name.fromJson(result["name"]),
@@ -68,9 +63,6 @@ class User extends Equatable{
       picture: result["picture"],
       nat: result["nat"]
     );
-    } catch(e) {
-      print(e.toString());
-    }
   }  
 
 }

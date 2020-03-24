@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Avatar(url: user.picture["large"]),
-                    Information(title: "Name",data: user.name.first + " " + user.name.last,),
+                    Information(user: user,),
                     new Expanded(child: new Container()),
                     BottomAction(type: InformationType.personal)
                   ],
