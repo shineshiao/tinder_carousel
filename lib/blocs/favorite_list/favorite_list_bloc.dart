@@ -19,7 +19,6 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
       : assert(favoriteListRepository != null);
 
   int getListLenght() {
-    print("List Length : " + userList.length.toString());
     return userList == null ? 0 : userList.length;
   }
 
@@ -46,7 +45,6 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
     yield FavoriteListLoading();
     try {
       userList = await favoriteListRepository.loadFavoriteList();
-      print("Load userList : " + userList.length.toString());
       yield FavoriteListLoaded(userList: userList);
     } catch (_) {
       yield FavoriteListError();
@@ -56,7 +54,6 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
     yield FavoriteListLoading();
     try {
       userList.add(event.user);
-      print("Save userList : " + userList.length.toString());
       await favoriteListRepository.saveFavoriteList(userList);
       yield FavoriteListLoaded(userList: userList);
     } catch (_) {

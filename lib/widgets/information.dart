@@ -31,7 +31,6 @@ class _InformationState extends State<Information> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<InformationBloc>(context).add(InformationChanged(type: InformationType.personal));
   }
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,7 @@ class _InformationState extends State<Information> {
           if (state.informationType == InformationType.personal) {
             return Container(child: new Column(
               children: <Widget>[
-                new Text("Personal",style: title,),
+                new Text("My name is",style: title,),
                 new Text(widget.user.name.first + " " + widget.user.name.last,style: content,)
               ],
             ));

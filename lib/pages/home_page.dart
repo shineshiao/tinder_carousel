@@ -107,21 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         height: 290,
                         width: MediaQuery.of(context).size.width-50,
-                        //width: 300,
                         child: 
-                        new Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children : <Widget>[
-                            new Expanded(child: new Container(height: 120,)),
-                            new Container(child: Information(user: user,),
-                          ),
-                          new Expanded(child: new Container()),
-                          new Container(
-                            height: 50,
-                            child:BottomAction(type: InformationType.personal)
-                          ),
-                        ])
-                      
+                        BottomAction(user: user)
                       ),
                     ),
                     Align(
