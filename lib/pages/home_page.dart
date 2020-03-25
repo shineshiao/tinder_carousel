@@ -72,10 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 return new Dismissible(
                 resizeDuration: null,
                 onDismissed: (DismissDirection direction) {
-                  
                   _counter ++;
                   if(direction == DismissDirection.startToEnd) {
-                    print("Add user to favorite");
                     BlocProvider.of<FavoriteListBloc>(context)
                     .add(SaveFavoriteList(user: user));
                   }
