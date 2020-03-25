@@ -160,6 +160,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
+          BlocProvider.of<FavoriteListBloc>(context)
+      .add(LoadFavoriteList());
         },
         label: Text(BlocProvider.of<FavoriteListBloc>(context).getListLenght().toString()),
         icon: Icon(Icons.favorite),

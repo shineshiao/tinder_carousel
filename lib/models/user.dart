@@ -76,7 +76,7 @@ class User extends Equatable{
     m['registered'] = registered.toString();
     m['phone'] = phone;
     m['cell'] = cell;
-    m['id'] = id.toString();
+    m['id'] = id;
     m['picture'] = picture;
     m['nat'] = nat;
 

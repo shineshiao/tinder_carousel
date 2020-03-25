@@ -31,5 +31,6 @@ class Name extends Equatable{
     m["title"] = title;
     m["first"] = first;
     m["last"] = last;
+    return m;
   }
 }

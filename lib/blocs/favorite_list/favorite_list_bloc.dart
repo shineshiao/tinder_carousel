@@ -41,7 +41,8 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
   Stream<FavoriteListState> _mapLoadFavoriteListToState(LoadFavoriteList event) async* {
     yield FavoriteListLoading();
     try {
-      userList = favoriteListRepository.loadFavoriteList();
+      userList = await favoriteListRepository.loadFavoriteList();
+      print("Load userList : " + userList.length.toString());
       yield FavoriteListLoaded(userList: userList);
     } catch (_) {
       yield FavoriteListError();
@@ -51,7 +52,8 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
     yield FavoriteListLoading();
     try {
       userList.add(event.user);
-      favoriteListRepository.saveFavoriteList(userList);
+      print("Save userList : " + userList.length.toString());
+      await favoriteListRepository.saveFavoriteList(userList);
       yield FavoriteListLoaded(userList: userList);
     } catch (_) {
       yield FavoriteListError();

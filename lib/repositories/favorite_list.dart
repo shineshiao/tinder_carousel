@@ -8,7 +8,8 @@ class FavoriteListRepository {
 
   FavoriteListRepository();
   final LocalStorage storage = new LocalStorage('tinder_app');
-  List<User> loadFavoriteList() {
+  Future<List<User>> loadFavoriteList() async {
+    await storage.ready;
     var length = storage.getItem('favorite_lenght');
     print(" ???????????? + $length");
     List<User> userList = new List();
@@ -36,7 +37,8 @@ class FavoriteListRepository {
     return userList;
   }
 
-  void saveFavoriteList(List<User> userList) {
+  Future<void> saveFavoriteList(List<User> userList) async {
+    await storage.ready;
     storage.setItem('favorite_list', userList);
     storage.setItem('favorite_lenght', userList.length);
   }
