@@ -55,8 +55,11 @@ class _InformationState extends State<Information> {
           if (state.informationType == InformationType.email) {
             return Container(child: new Column(
               children: <Widget>[
-                new Text("My Birthday is",style: title),
-                new Text(new DateFormat("dd-MM-yyyy").format(widget.user.dob),style: content, textAlign: TextAlign.center,)
+                // new Text("My Birthday is",style: title),
+                // new Text(new DateFormat("dd-MM-yyyy").format(widget.user.dob),style: content, textAlign: TextAlign.center,)
+
+                new Text("My Email is",style: title),
+                new Text(widget.user.email,style: content, textAlign: TextAlign.center,)
               ],
             ));
           }
