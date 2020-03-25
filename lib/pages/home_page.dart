@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           listener: (context, state) {
             if (state is UserLoaded) {
               _refreshCompleter?.complete();
-              _refreshCompleter = Completer();
+              _refreshCompleter = Completer<void>();
             }
           },
           builder: (context, state) {
@@ -143,11 +143,15 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final user = await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => FavoritePage()),
           );
+          if (user != null) {
+            BlocProvider.of<UserBloc>(context)
+                .add(LoadUser(user: user));
+          }
         },
         label: Text(BlocProvider.of<FavoriteListBloc>(context).getListLenght().toString()),
         icon: Icon(Icons.favorite),

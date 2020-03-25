@@ -11,6 +11,9 @@ class FetchSampleUser extends UserEvent {
 
 class FetchRandomUser extends UserEvent {
 }
+class UnLoadUser extends UserEvent {
+}
+
 class LoadUser extends UserEvent {
   final User user;
 

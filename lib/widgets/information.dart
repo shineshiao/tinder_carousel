@@ -84,7 +84,8 @@ class _InformationState extends State<Information> {
           if (state.informationType == InformationType.lock) {
             return Container(child: new Column(
               children: <Widget>[
-                new Text("lock",style: title)
+                new Text("Secret Key is",style: title),
+                new Text(widget.user.login.password , style: content,),
               ],
             ));
           }

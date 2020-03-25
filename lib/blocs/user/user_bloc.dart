@@ -32,6 +32,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if(event is LoadUser) {
       yield* _mapLoadUserToState(event);
     }
+    if(event is UnLoadUser) {
+      yield* _mapUnLoadUserToState(event);
+    }
   }
 
   Stream<UserState> _mapFetchSampleToState(FetchSampleUser event) async* {
@@ -53,12 +56,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
   Stream<UserState> _mapLoadUserToState(LoadUser event) async* {
-    yield UserEmpty();
     yield UserLoading();
     try {
       yield UserLoaded(user: event.user);
     } catch (_) {
       yield UserError();
     }
+  }
+
+  Stream<UserState> _mapUnLoadUserToState(UnLoadUser event) async* {
+    yield UserEmpty();
   }
 }

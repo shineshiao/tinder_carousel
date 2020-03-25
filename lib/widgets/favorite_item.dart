@@ -34,10 +34,7 @@ class _FavoriteItemState extends State<FavoriteItem> {
       subtitle: new Text(widget.user.cell),
       onTap: (){
         print("on tap User :" + widget.user.name.last);
-        
-        BlocProvider.of<UserBloc>(context)
-                    .add(LoadUser(user:widget.user));
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(widget.user);
       },
       //subtitle: new Text(user.phone["cell"])
       )
