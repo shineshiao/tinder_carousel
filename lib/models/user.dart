@@ -63,6 +63,24 @@ class User extends Equatable{
       picture: result["picture"],
       nat: result["nat"]
     );
+  }
+
+  dynamic toJson() {
+    Map<String, dynamic> m = new Map();
+    m['gender'] = gender;
+    m['name'] = name.toJson();
+    m['location'] = location.toJson();
+    m['email'] = email;
+    m['login'] = login.toJson();
+    m['dob'] = dob.toString();
+    m['registered'] = registered.toString();
+    m['phone'] = phone;
+    m['cell'] = cell;
+    m['id'] = id.toString();
+    m['picture'] = picture;
+    m['nat'] = nat;
+
+    return m;
   }  
 
 }

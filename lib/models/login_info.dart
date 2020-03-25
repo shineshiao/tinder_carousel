@@ -41,4 +41,18 @@ class LoginInfo extends Equatable{
       sha256: json["sha256"]
     );
   }
+
+  dynamic toJson() {
+    Map<String, dynamic> m = new Map();
+
+    m['username'] = userName;
+    m['password'] = password;
+    m['salvador'] = salvador;
+    m['salt'] = salt;
+    m['md5'] = md5;
+    m['sha1'] = sha1;
+    m['sha256'] = sha256;
+
+    return m;
+  }  
 }

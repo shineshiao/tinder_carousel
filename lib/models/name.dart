@@ -25,4 +25,11 @@ class Name extends Equatable{
       last: json["last"],
     );
   }
+
+  dynamic toJson() {
+    Map<String,dynamic> m = new Map();
+    m["title"] = title;
+    m["first"] = first;
+    m["last"] = last;
+  }
 }

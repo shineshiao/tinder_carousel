@@ -2,7 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:tinder_carousel/blocs/favorite_list/favorite_list_bloc.dart';
+import 'package:tinder_carousel/blocs/favorite_list/favorite_list_event.dart';
 import 'package:tinder_carousel/blocs/user/user_bloc.dart';
+import 'package:tinder_carousel/models/models.dart';
 import 'package:tinder_carousel/widgets/avatar.dart';
 import 'package:tinder_carousel/widgets/bottom_bar.dart';
 import 'package:tinder_carousel/widgets/information.dart';
@@ -27,13 +31,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Completer<void> _refreshCompleter;
+  
   @override
   void initState() {
     super.initState();
     _refreshCompleter = Completer<void>();
+    BlocProvider.of<FavoriteListBloc>(context)
+      .add(LoadFavoriteList());
     BlocProvider.of<UserBloc>(context)
-                    .add(FetchSampleUser());
+      .add(FetchSampleUser());
+    
   }
+
   @override
   Widget build(BuildContext context) {
     int _counter = 0;
@@ -68,8 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 return new Dismissible(
                 resizeDuration: null,
                 onDismissed: (DismissDirection direction) {
-                  print (direction.toString());
+                  
                   _counter ++;
+                  if(direction == DismissDirection.startToEnd) {
+                    print("Add user to favorite");
+                    BlocProvider.of<FavoriteListBloc>(context)
+                    .add(SaveFavoriteList(user: user));
+                  }
                    BlocProvider.of<UserBloc>(context)
                     .add(FetchRandomUser());
                 },
@@ -144,25 +158,15 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
-      //  Center(
-      //   // Center is a layout widget. It takes a single child and positions it
-      //   // in the middle of the parent.
-      //   child: new Card(
-      //     child: Container(
-      //     width: MediaQuery.of(context).size.width -40,
-      //     height: MediaQuery.of(context).size.height /2,
-      //     child: new Column(
-      //       mainAxisAlignment: MainAxisAlignment.start,
-      //       children: <Widget>[
-      //         Avatar(url: "https://randomuser.me/api/portraits/women/90.jpg"),
-      //         Information(title: "Name",data: "test",),
-      //         new Expanded(child: new Container()),
-      //         BottomAction(type: InformationType.personal)
-      //       ],
-      //     )
-      //   ),
-      //   )
-      // ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+        },
+        label: Text(BlocProvider.of<FavoriteListBloc>(context).getListLenght().toString()),
+        icon: Icon(Icons.favorite),
+        backgroundColor: Colors.pink,
+      ),
     );
   }
+
+  
 }

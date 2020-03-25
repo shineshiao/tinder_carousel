@@ -22,4 +22,14 @@ class Location extends Equatable{
       state: json["state"],
       postcode: json["postcode"]);
   }
+
+  dynamic toJson() {
+    Map<String,dynamic> m = new Map();
+    m["street"] = street;
+    m["city"] = city;
+    m["state"] = state;
+    m["postcode"] = postcode;
+
+    return m;
+  }
 }
