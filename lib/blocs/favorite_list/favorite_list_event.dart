@@ -18,7 +18,7 @@ class SaveFavoriteList extends FavoriteListEvent {
   List<Object> get props => [user];
 }
 
-class ClearAllFavoriteList extends FavoriteListEvent {
+class ClearFavoriteList extends FavoriteListEvent {
 }
 
 class RemoveUserFavoriteList extends FavoriteListEvent {

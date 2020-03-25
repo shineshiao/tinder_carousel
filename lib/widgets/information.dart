@@ -33,13 +33,14 @@ class _InformationState extends State<Information> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     TextStyle title = new TextStyle(fontSize: 22,color: Colors.grey);
     TextStyle content = new TextStyle(fontSize: 30,color: Colors.black);
     return BlocBuilder<InformationBloc, InformationState>(
       builder: (context, state) {
-        if(state is InformationLoading) {
+        if(state is InformationLoading || state is InformationInitial) {
           return Center(child: CircularProgressIndicator());
         }
         else if(state is InformationLoaded) {
@@ -88,7 +89,10 @@ class _InformationState extends State<Information> {
         else if(state is InformationEmpty) {
           return Center(child: Text('Please choose 1 profile'));
         }
-        return Center(child: Text('Something error'));
+        else if(state is InformationError) {
+          return Center(child: Text('Something error'));
+        }
+        return Container();
       },
     );
   }

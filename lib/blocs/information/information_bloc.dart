@@ -10,7 +10,7 @@ part 'information_state.dart';
 
 class InformationBloc extends Bloc<InformationEvent, InformationState> {
   @override
-  InformationState get initialState => InformationState();
+  InformationState get initialState => InformationInitial();
 
   @override
   Stream<InformationState> mapEventToState(

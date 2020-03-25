@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_bloc.dart';
+import 'package:tinder_carousel/blocs/favorite_list/favorite_list_event.dart';
 import 'package:tinder_carousel/models/models.dart';
+import 'package:tinder_carousel/widgets/favorite_item.dart';
 
 class FavoritePage extends StatefulWidget {
   FavoritePage({Key key}) : super(key: key);
@@ -31,29 +33,23 @@ class _FavoritePageState extends State<FavoritePage> {
           icon: new Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ), 
+        actions: <Widget>[
+          new IconButton(
+          icon: new Icon(Icons.delete, color: Colors.white),
+          onPressed: (){ 
+            BlocProvider.of<FavoriteListBloc>(context).add(ClearFavoriteList());
+            Navigator.of(context).pop();
+          }
+          )
+          ],
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(8),
         itemCount: userList.length,
         itemBuilder: (BuildContext context, int index) {
-          return favoriteItem(userList[index]);
+          return FavoriteItem(user: userList[index]);
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),
-      )
-    );
-  }
-
-  Widget favoriteItem(User user) {
-    return new Container (
-      color: Colors.pink[200],
-      child : new ListTile(
-      leading: new Image.network(user.picture["thumbnail"]),
-      title: new Text(user.name.first + " " + user.name.last),
-      subtitle: new Text(user.cell),
-      onTap: (){
-        print("on tap User :" + user.name.last);
-      },
-      //subtitle: new Text(user.phone["cell"])
       )
     );
   }

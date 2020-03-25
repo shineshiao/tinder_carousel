@@ -68,6 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
             }
             if (state is UserLoaded) {
               final user = state.user;
+              BlocProvider.of<InformationBloc>(context)
+                  .add(InformationChanged(type: InformationType.personal));
 
                 return new Dismissible(
                 resizeDuration: null,
@@ -79,8 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                   BlocProvider.of<UserBloc>(context)
                     .add(FetchRandomUser());
-                  BlocProvider.of<InformationBloc>(context)
-                  .add(InformationChanged(type: InformationType.personal));
+                  // BlocProvider.of<InformationBloc>(context)
+                  // .add(InformationChanged(type: InformationType.personal));
                 },
                 child: Card(
                 color: Colors.white,

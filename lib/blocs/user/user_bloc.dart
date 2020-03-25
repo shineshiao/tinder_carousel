@@ -29,6 +29,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if(event is FetchRandomUser) {
       yield* _mapFetchRandomToState(event);
     }
+    if(event is LoadUser) {
+      yield* _mapLoadUserToState(event);
+    }
   }
 
   Stream<UserState> _mapFetchSampleToState(FetchSampleUser event) async* {
@@ -45,6 +48,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     try {
       final User user = userRepository.getRandomUser();
       yield UserLoaded(user: user);
+    } catch (_) {
+      yield UserError();
+    }
+  }
+  Stream<UserState> _mapLoadUserToState(LoadUser event) async* {
+    yield UserEmpty();
+    yield UserLoading();
+    try {
+      yield UserLoaded(user: event.user);
     } catch (_) {
       yield UserError();
     }

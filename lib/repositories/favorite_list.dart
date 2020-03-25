@@ -40,4 +40,8 @@ class FavoriteListRepository {
     storage.setItem('favorite_list', userList);
   }
   
+  Future<void> clearFavoriteList() async {
+    await storage.ready;
+    storage.clear();
+  }
 }
