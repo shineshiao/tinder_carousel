@@ -23,6 +23,10 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
     return userList == null ? 0 : userList.length;
   }
 
+  List<User> getUserList() {
+    return userList;
+  }
+
   @override
   FavoriteListState get initialState => FavoriteListInitial();
 
