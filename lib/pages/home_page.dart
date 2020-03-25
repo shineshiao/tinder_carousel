@@ -36,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
+    int _counter = 0;
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -64,7 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
             if (state is UserLoaded) {
               final user = state.user;
 
-              return new Card(
+                return new Dismissible(
+                resizeDuration: null,
+                onDismissed: (DismissDirection direction) {
+                  print (direction.toString());
+                  _counter ++;
+                   BlocProvider.of<UserBloc>(context)
+                    .add(FetchRandomUser());
+                },
+                child: Card(
                 color: Colors.white,
               
                 child: new  Container(
@@ -119,7 +128,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ],
                 )
-              ));
+              )
+              )
+              
+              , key: new ValueKey(_counter),
+              );
             }
             if (state is UserError) {
               return Text(

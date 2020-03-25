@@ -8,3 +8,6 @@ abstract class UserEvent extends Equatable {
 
 class FetchSampleUser extends UserEvent {
 }
+
+class FetchRandomUser extends UserEvent {
+}

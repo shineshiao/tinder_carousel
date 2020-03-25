@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -23,14 +24,26 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     UserEvent event,
   ) async* {
     if (event is FetchSampleUser) {
-      yield* _mapFetchUserToState(event);
+      yield* _mapFetchSampleToState(event);
+    }
+    if(event is FetchRandomUser) {
+      yield* _mapFetchRandomToState(event);
     }
   }
 
-    Stream<UserState> _mapFetchUserToState(FetchSampleUser event) async* {
+  Stream<UserState> _mapFetchSampleToState(FetchSampleUser event) async* {
     yield UserLoading();
     try {
       final User user = userRepository.getSampleUser();
+      yield UserLoaded(user: user);
+    } catch (_) {
+      yield UserError();
+    }
+  }
+  Stream<UserState> _mapFetchRandomToState(FetchRandomUser event) async* {
+    yield UserLoading();
+    try {
+      final User user = userRepository.getRandomUser();
       yield UserLoaded(user: user);
     } catch (_) {
       yield UserError();
