@@ -14,7 +14,7 @@ class LocationWidget extends StatefulWidget {
 
 class _LocationWidgetState extends State<LocationWidget> {
 
-  TextStyle content = new TextStyle(fontSize: 25,color: Colors.black);
+  TextStyle content = new TextStyle(fontSize: 30,color: Colors.black);
   @override
   Widget build(BuildContext context) {
     return new Column(

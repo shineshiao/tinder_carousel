@@ -36,7 +36,7 @@ class _InformationState extends State<Information> {
   @override
   Widget build(BuildContext context) {
     TextStyle title = new TextStyle(fontSize: 22,color: Colors.grey);
-    TextStyle content = new TextStyle(fontSize: 25,color: Colors.black);
+    TextStyle content = new TextStyle(fontSize: 30,color: Colors.black);
     return BlocBuilder<InformationBloc, InformationState>(
       builder: (context, state) {
         if(state is InformationLoading) {
@@ -55,7 +55,7 @@ class _InformationState extends State<Information> {
             return Container(child: new Column(
               children: <Widget>[
                 new Text("Email",style: title),
-                new Text(widget.user.email,style: content,)
+                new Text(widget.user.email,style: content, textAlign: TextAlign.center,)
               ],
             ));
           }

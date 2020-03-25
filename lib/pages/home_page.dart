@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   //mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Positioned(
-                      top: 100.0,
+                      top: 150.0,
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),]
 
                         ),
-                        height: 340,
+                        height: 290,
                         width: MediaQuery.of(context).size.width-50,
                         //width: 300,
                         child: 
