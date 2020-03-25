@@ -16,7 +16,7 @@ class _AvatarState extends State<Avatar> {
   Widget build(BuildContext context) {
     return CircularProfileAvatar(
           widget.url, //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
-          radius: 150, // sets radius, default 50.0              
+          radius: 100, // sets radius, default 50.0              
           backgroundColor: Colors.transparent, // sets background color, default Colors.white
           borderWidth: 10,  // sets border, default 0.0
           borderColor: Colors.white, // sets border color, default Colors.white

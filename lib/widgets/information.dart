@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder_carousel/blocs/information/information_bloc.dart';
+import 'package:tinder_carousel/widgets/location.dart';
 
 import '../blocs/information/information_bloc.dart';
 import '../blocs/information/information_bloc.dart';
@@ -34,6 +35,8 @@ class _InformationState extends State<Information> {
   }
   @override
   Widget build(BuildContext context) {
+    TextStyle title = new TextStyle(fontSize: 22,color: Colors.grey);
+    TextStyle content = new TextStyle(fontSize: 25,color: Colors.black);
     return BlocBuilder<InformationBloc, InformationState>(
       builder: (context, state) {
         if(state is InformationLoading) {
@@ -41,42 +44,43 @@ class _InformationState extends State<Information> {
         }
         else if(state is InformationLoaded) {
           if (state.informationType == InformationType.personal) {
-            return Center(child: new Column(
+            return Container(child: new Column(
               children: <Widget>[
-                new Text("Personal"),
-                new Text(widget.user.name.first + " " + widget.user.name.last)
+                new Text("Personal",style: title,),
+                new Text(widget.user.name.first + " " + widget.user.name.last,style: content,)
               ],
             ));
           }
           if (state.informationType == InformationType.email) {
-            return Center(child: new Column(
+            return Container(child: new Column(
               children: <Widget>[
-                new Text("Email"),
-                new Text(widget.user.email)
+                new Text("Email",style: title),
+                new Text(widget.user.email,style: content,)
               ],
             ));
           }
           if (state.informationType == InformationType.location) {
-            return Center(child: new Column(
+            return Container(child: new Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                new Text("location"),
-                new Text(widget.user.location.props.toString())
+                new Text("My Address is",style: title),
+                new LocationWidget(location: widget.user.location)
               ],
             ));
           }
           if (state.informationType == InformationType.phone) {
-            return Center(child: new Column(
+            return Container(child: new Column(
               children: <Widget>[
-                new Text("phone"),
-                new Text(widget.user.phone),
-                new Text(widget.user.cell),
+                new Text("Phone",style: title),
+                new Text(widget.user.phone , style: content,),
+                new Text(widget.user.cell , style: content,),
               ],
             ));
           }
           if (state.informationType == InformationType.lock) {
-            return Center(child: new Column(
+            return Container(child: new Column(
               children: <Widget>[
-                new Text("lock")
+                new Text("lock",style: title)
               ],
             ));
           }

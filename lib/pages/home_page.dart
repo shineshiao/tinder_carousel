@@ -65,16 +65,58 @@ class _MyHomePageState extends State<MyHomePage> {
               final user = state.user;
 
               return new Card(
-                child: Container(
-                width: MediaQuery.of(context).size.width -40,
-                height: MediaQuery.of(context).size.height /2,
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                color: Colors.white,
+              
+                child: new  Container(
+                  color: Colors.grey[100],
+                  margin: EdgeInsets.fromLTRB(20, 50, 20, 100),
+                child: new Stack(
+                  
+                  //mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Avatar(url: user.picture["large"]),
-                    Information(user: user,),
-                    new Expanded(child: new Container()),
-                    BottomAction(type: InformationType.personal)
+                    Positioned(
+                      top: 100.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey,
+                          ),
+                          color: Colors.white,
+                          boxShadow: [BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 5.0,
+                        ),]
+
+                        ),
+                        height: 340,
+                        width: MediaQuery.of(context).size.width-50,
+                        //width: 300,
+                        child: 
+                        new Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children : <Widget>[
+                            new Expanded(child: new Container(height: 120,)),
+                            new Container(child: Information(user: user,),
+                          ),
+                          new Expanded(child: new Container()),
+                          new Container(
+                            height: 50,
+                            child:BottomAction(type: InformationType.personal)
+                          ),
+                        ])
+                      
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child:
+                      new Container(
+                        height: 200,
+                        width: 200,
+                    
+                        child: Avatar(url: user.picture["large"]),
+                      ),
+                    ),
                   ],
                 )
               ));
