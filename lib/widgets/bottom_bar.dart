@@ -59,7 +59,7 @@ class _BottomActionState extends State<BottomAction> {
 
               tabs: choices.map((Choice choice) {
                 return Tab(
-                  icon: Icon(choice.icon,color: Colors.blue,),
+                  icon: Icon(choice.icon,size: 35,color: Colors.blue,),
                 );
               }).toList(),
             ),

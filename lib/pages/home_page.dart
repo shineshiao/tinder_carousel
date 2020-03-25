@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_bloc.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_event.dart';
+import 'package:tinder_carousel/blocs/information/information_bloc.dart';
 import 'package:tinder_carousel/blocs/user/user_bloc.dart';
 import 'package:tinder_carousel/models/models.dart';
 import 'package:tinder_carousel/widgets/avatar.dart';
@@ -78,8 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     BlocProvider.of<FavoriteListBloc>(context)
                     .add(SaveFavoriteList(user: user));
                   }
-                   BlocProvider.of<UserBloc>(context)
+                  BlocProvider.of<UserBloc>(context)
                     .add(FetchRandomUser());
+                  BlocProvider.of<InformationBloc>(context)
+                  .add(InformationChanged(type: InformationType.personal));
                 },
                 child: Card(
                 color: Colors.white,
