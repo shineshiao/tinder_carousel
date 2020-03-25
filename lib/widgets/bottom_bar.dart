@@ -56,7 +56,11 @@ class _BottomActionState extends State<BottomAction> {
                   .add(InformationChanged(type: InformationType.lock));
                 }
               },
-
+              unselectedLabelColor: Colors.redAccent,
+              indicator: UnderlineTabIndicator(
+                borderSide: BorderSide(color: Colors.blueAccent, width: 3.0),
+                insets: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 40.0),
+              ),
               tabs: choices.map((Choice choice) {
                 return Tab(
                   icon: Icon(choice.icon,size: 35,color: Colors.blue,),
@@ -78,7 +82,7 @@ class Choice {
 const List<Choice> choices = const <Choice>[
   const Choice(title: 'Name', icon: Icons.person),
   const Choice(title: 'Email', icon: Icons.email),
-  const Choice(title: 'Address', icon: Icons.location_city),
+  const Choice(title: 'Address', icon: Icons.map),
   const Choice(title: 'Phone', icon: Icons.phone),
   const Choice(title: 'Lock', icon: Icons.lock),
 ];
