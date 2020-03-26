@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_bloc.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_event.dart';
 import 'package:tinder_carousel/blocs/information/information_bloc.dart';
 import 'package:tinder_carousel/blocs/user/user_bloc.dart';
-import 'package:tinder_carousel/models/models.dart';
 import 'package:tinder_carousel/widgets/avatar.dart';
 import 'package:tinder_carousel/widgets/bottom_bar.dart';
+import 'package:tinder_carousel/widgets/favorite_button.dart';
 import 'package:tinder_carousel/widgets/information.dart';
 
 import 'favorite_page.dart';
@@ -81,8 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                   BlocProvider.of<UserBloc>(context)
                     .add(FetchRandomUser());
-                  // BlocProvider.of<InformationBloc>(context)
-                  // .add(InformationChanged(type: InformationType.personal));
                 },
                 child: Card(
                 color: Colors.white,
@@ -142,21 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          final user = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => FavoritePage()),
-          );
-          if (user != null) {
-            BlocProvider.of<UserBloc>(context)
-                .add(LoadUser(user: user));
-          }
-        },
-        label: Text(BlocProvider.of<FavoriteListBloc>(context).getListLenght().toString()),
-        icon: Icon(Icons.favorite),
-        backgroundColor: Colors.pink,
-      ),
+      floatingActionButton: FavoriteButton()
     );
   }
 
