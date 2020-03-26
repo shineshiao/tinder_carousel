@@ -40,7 +40,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> _mapFetchSampleToState(FetchSampleUser event) async* {
     yield UserLoading();
     try {
-      final User user = userRepository.getSampleUser();
+      //await Future.delayed(const Duration(seconds: 10));
+      final User user = await userRepository.getSampleUser();
       yield UserLoaded(user: user);
     } catch (_) {
       yield UserError();
@@ -49,7 +50,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> _mapFetchRandomToState(FetchRandomUser event) async* {
     yield UserLoading();
     try {
-      final User user = userRepository.getRandomUser();
+      final User user = await userRepository.getRandomUser();
       yield UserLoaded(user: user);
     } catch (_) {
       yield UserError();
