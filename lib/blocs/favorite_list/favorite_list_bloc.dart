@@ -63,15 +63,14 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
       if(!userList.contains(event.user)){
         userList.add(event.user);
         await favoriteListRepository.saveFavoriteList(userList);
-        yield FavoriteListLoaded(userList: userList);
       }
       else {
         yield FavoriteListError(errorType: ErrorType.Duplicate);
-        yield FavoriteListLoaded(userList: userList);
       }
     } catch (_) {
       yield FavoriteListError(errorType: ErrorType.Common);
     }
+    yield FavoriteListLoaded(userList: userList);
   }
   Stream<FavoriteListState> _mapClearFavoriteListToState(ClearFavoriteList event) async* {
     yield FavoriteListLoading();
