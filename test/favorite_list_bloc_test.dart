@@ -67,67 +67,26 @@ main() {
         act: (bloc) => bloc.add(LoadFavoriteList()),
         expect: [
           FavoriteListLoading(),
-          FavoriteListError(),
+          FavoriteListError(errorType: ErrorType.Common),
         ],
       );
-  //     blocTest(
-  //       'emits [UserLoading, UserError] when user repository throws error',
-  //       build: () async {
-  //         when(userRepository.getSampleUser())
-  //             .thenThrow('User Error');
-  //         return userBloc;
-  //       },
-  //       act: (bloc) => bloc.add(FetchSampleUser()),
-  //       expect: [
-  //         UserLoading(),
-  //         UserError(),
-  //       ],
-  //    );
     });
 
-  //   group('FetchRandomUser', () {
-  //     blocTest(
-  //       'emits [UserLoading, UserLoaed] when user repository returns user',
-  //       build: () async {
-  //         when(userRepository.getRandomUser()).thenAnswer(
-  //           (_) => Future.value(sampleUser),
-  //         );
-  //         return userBloc;
-  //       },
-  //       act: (bloc) => bloc.add(FetchRandomUser()),
-  //       expect: [
-  //         UserLoading(),
-  //         UserLoaded(user: sampleUser),
-  //       ],
-  //     );
-
-  //     blocTest(
-  //       'emits [UserLoading, UserError] when user repository throws error',
-  //       build: () async {
-  //         when(userRepository.getRandomUser())
-  //             .thenThrow('User Error');
-  //         return userBloc;
-  //       },
-  //       act: (bloc) => bloc.add(FetchRandomUser()),
-  //       expect: [
-  //         UserLoading(),
-  //         UserError(),
-  //       ],
-  //     );
-  //   });
-
-  //   group('LoadUser', () {
-  //     blocTest(
-  //       'emits [UserLoading, UserLoaded] when load user from favorite list',
-  //       build: () async {
-  //         return userBloc;
-  //       },
-  //       act: (bloc) => bloc.add(LoadUser(user: sampleUser)),
-  //       expect: [
-  //         UserLoading(),
-  //         UserLoaded(user: sampleUser),
-  //       ],
-  //     );
-  //    });
+    group('SaveFavoriteList', () {
+      blocTest(
+        'emits [FavoriteListLoading, FavoriteListLoaded] when user add new user to list',
+        build: () async {
+          when(favoriteListRepository.saveFavoriteList(sampleUserList)).thenAnswer(
+            (_) => Future.value(sampleUserList),
+          );
+          return favoriteListBloc;
+        },
+        act: (bloc) => bloc.add(SaveFavoriteList(user: sampleUser)),
+        expect: [
+          FavoriteListLoading(),
+          FavoriteListLoaded(userList: sampleUserList),
+        ],
+      );
     });
+  });
 }

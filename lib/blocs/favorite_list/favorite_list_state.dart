@@ -24,4 +24,18 @@ class FavoriteListLoaded extends FavoriteListState {
   List<Object> get props => [userList];
 }
 
-class FavoriteListError extends FavoriteListState {}
+class FavoriteListSaveError extends FavoriteListState {}
+
+class FavoriteListError extends FavoriteListState {
+  final ErrorType errorType;
+
+  FavoriteListError({@required this.errorType}) : assert(errorType != null);
+
+  @override
+  List<Object> get props => [errorType];
+}
+
+enum ErrorType {
+  Common,
+  Duplicate
+}

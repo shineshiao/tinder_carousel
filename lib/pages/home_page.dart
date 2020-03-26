@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_bloc.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_event.dart';
+import 'package:tinder_carousel/blocs/favorite_list/favorite_list_state.dart';
 import 'package:tinder_carousel/blocs/information/information_bloc.dart';
 import 'package:tinder_carousel/blocs/user/user_bloc.dart';
 import 'package:tinder_carousel/widgets/avatar.dart';
@@ -24,7 +25,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Completer<void> _refreshCompleter;
-  
   @override
   void initState() {
     super.initState();
@@ -33,7 +33,6 @@ class _MyHomePageState extends State<MyHomePage> {
       .add(LoadFavoriteList());
     BlocProvider.of<UserBloc>(context)
       .add(FetchSampleUser());
-    
   }
 
   @override
@@ -77,6 +76,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   if(direction == DismissDirection.startToEnd) {
                     BlocProvider.of<FavoriteListBloc>(context)
                     .add(SaveFavoriteList(user: user));
+                    BlocProvider.of<FavoriteListBloc>(context).listen((state){
+                      if( state is FavoriteListError) {
+                        ErrorType errorType = state.props[0];
+                        if(errorType == ErrorType.Duplicate){
+                        Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: new Text("Duplicate User",
+                          textAlign: TextAlign.center,),
+                          backgroundColor: Colors.red,
+                          duration: Duration(milliseconds : 1000),
+                          behavior: SnackBarBehavior.floating,),
+                          );
+                        }
+                      }
+                    });
                   } else {
                     Scaffold.of(context).showSnackBar(
                       SnackBar(
