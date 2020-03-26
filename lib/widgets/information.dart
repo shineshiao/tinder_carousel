@@ -45,7 +45,9 @@ class _InformationState extends State<Information> {
         }
         else if(state is InformationLoaded) {
           if (state.informationType == InformationType.personal) {
-            return Container(child: new Column(
+            return Container(
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 new Text("My name is",style: title,),
                 new Text(widget.user.name.first + " " + widget.user.name.last,style: content,)
@@ -54,6 +56,7 @@ class _InformationState extends State<Information> {
           }
           if (state.informationType == InformationType.email) {
             return Container(child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 // new Text("My Birthday is",style: title),
                 // new Text(new DateFormat("dd-MM-yyyy").format(widget.user.dob),style: content, textAlign: TextAlign.center,)
@@ -65,7 +68,7 @@ class _InformationState extends State<Information> {
           }
           if (state.informationType == InformationType.location) {
             return Container(child: new Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 new Text("My Address is",style: title),
                 new LocationWidget(location: widget.user.location)
@@ -74,6 +77,7 @@ class _InformationState extends State<Information> {
           }
           if (state.informationType == InformationType.phone) {
             return Container(child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 new Text("Phone",style: title),
                 new Text(widget.user.phone , style: content,),
@@ -83,6 +87,7 @@ class _InformationState extends State<Information> {
           }
           if (state.informationType == InformationType.lock) {
             return Container(child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 new Text("Secret Key is",style: title),
                 new Text(widget.user.login.password , style: content,),

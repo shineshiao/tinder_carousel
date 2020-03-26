@@ -45,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -104,43 +105,40 @@ class _MyHomePageState extends State<MyHomePage> {
                   BlocProvider.of<UserBloc>(context)
                     .add(FetchRandomUser());
                 },
-                child: Card(
-                color: Colors.white,
+                child: Container(
+                //color: Colors.white,
               
-                child: new  Container(
-                  color: Colors.grey[100],
+                child: new  Card(
+                  color:Colors.blue[500],
                   margin: EdgeInsets.fromLTRB(20, 50, 20, 100),
                 child: new Stack(
                   
                   //mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Positioned(
-                      top: 150.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey,
-                          ),
-                          color: Colors.white,
-                          boxShadow: [BoxShadow(
+                    Container(
+                      margin: EdgeInsets.only(top: 150),
+                      decoration: BoxDecoration(
+                        border: Border.all(
                           color: Colors.grey,
-                          blurRadius: 5.0,
-                        ),]
-
                         ),
-                        height: 290,
-                        width: MediaQuery.of(context).size.width-50,
-                        child: 
-                        BottomAction(user: user)
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 5.0,
+                          ),
+                        ]
                       ),
+                      child: 
+                      BottomAction(user: user)
                     ),
                     Align(
                       alignment: Alignment.topCenter,
                       child:
                       new Container(
+                        color: Colors.transparent,
                         height: 200,
                         width: 200,
-                    
                         child: Avatar(url: user.picture["large"]),
                       ),
                     ),

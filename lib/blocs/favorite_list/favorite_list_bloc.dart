@@ -67,6 +67,7 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
       }
       else {
         yield FavoriteListError(errorType: ErrorType.Duplicate);
+        yield FavoriteListLoaded(userList: userList);
       }
     } catch (_) {
       yield FavoriteListError(errorType: ErrorType.Common);

@@ -27,8 +27,7 @@ class _BottomActionState extends State<BottomAction> {
             children: choices.map((Choice choice) {
               return Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(10,100,10,10),
-                child: Information(user: widget.user,),
+                child: new Information(user: widget.user,),
               );
             }).toList(),
           ),
