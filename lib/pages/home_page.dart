@@ -77,6 +77,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   if(direction == DismissDirection.startToEnd) {
                     BlocProvider.of<FavoriteListBloc>(context)
                     .add(SaveFavoriteList(user: user));
+                  } else {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        content: new Text("Fetch new user",
+                        textAlign: TextAlign.center,),
+                        backgroundColor: Colors.lightBlue[200],
+                        duration: Duration(milliseconds : 1000),
+                        behavior: SnackBarBehavior.floating,),
+                        );
                   }
                   BlocProvider.of<UserBloc>(context)
                     .add(FetchRandomUser());
