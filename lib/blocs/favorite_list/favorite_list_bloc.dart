@@ -48,7 +48,11 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
     yield FavoriteListLoading();
     try {
       userList = await favoriteListRepository.loadFavoriteList();
-      yield FavoriteListLoaded(userList: userList);
+      if(userList.length == 0) {
+        yield FavoriteListEmpty();
+      } else {
+        yield FavoriteListLoaded(userList: userList);
+      }
     } catch (_) {
       yield FavoriteListError();
     }
