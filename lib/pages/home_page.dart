@@ -8,6 +8,7 @@ import 'package:tinder_carousel/blocs/favorite_list/favorite_list_event.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_state.dart';
 import 'package:tinder_carousel/blocs/information/information_bloc.dart';
 import 'package:tinder_carousel/blocs/user/user_bloc.dart';
+import 'package:tinder_carousel/models/user.dart';
 import 'package:tinder_carousel/widgets/avatar.dart';
 import 'package:tinder_carousel/widgets/bottom_bar.dart';
 import 'package:tinder_carousel/widgets/favorite_button.dart';
@@ -102,36 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 return new Dismissible(
                 resizeDuration: null,
-                confirmDismiss: (DismissDirection direction) async {
-                  if(_connectivityResult != ConnectivityResult.none) {
-                    if(direction == DismissDirection.startToEnd) {
-                      BlocProvider.of<FavoriteListBloc>(context)
-                      .add(SaveFavoriteList(user: user));
-                      return false;
-                    }
-                      return true;
-                  }
-                  else {
-                    if(direction == DismissDirection.startToEnd) {
-                      BlocProvider.of<FavoriteListBloc>(context)
-                      .add(SaveFavoriteList(user: user));
-                      return false;
-                    } else {
-                      showNotify(context,NotifyStyle.snackbar, "Device offline, Can not find new user");
-                      return false;
-                    }
-                  }
-                   
-                },
-                onDismissed: (DismissDirection direction) {
-                  _counter ++;
-                  if(direction == DismissDirection.endToStart) {
-                    showNotify(context,NotifyStyle.snackbar, "Find new friend");
-                     BlocProvider.of<UserBloc>(context)
-                  .add(FetchRandomUser());  
-                  }
-                                 
-                },
+                confirmDismiss: (direction) => onConfirmDismiss(direction,user),
+                onDismissed: (direction) => onDismissed(context,direction),
                 child: Container(
                 //color: Colors.white,
               
@@ -216,5 +189,34 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
   }
-  
+
+  Future<bool> onConfirmDismiss(DismissDirection direction, User user) async {
+    if(_connectivityResult != ConnectivityResult.none) {
+      if(direction == DismissDirection.startToEnd) {
+        BlocProvider.of<FavoriteListBloc>(context)
+        .add(SaveFavoriteList(user: user));
+        return false;
+      }
+        return true;
+    }
+    else {
+      if(direction == DismissDirection.startToEnd) {
+        BlocProvider.of<FavoriteListBloc>(context)
+        .add(SaveFavoriteList(user: user));
+        return false;
+      } else {
+        showNotify(context,NotifyStyle.snackbar, "Device offline, Can not find new user");
+        return false;
+      }
+    }
+      
+  }
+  onDismissed(BuildContext context, DismissDirection direction) {   
+    if(direction == DismissDirection.endToStart) {
+      showNotify(context,NotifyStyle.snackbar, "Find new friend");
+        BlocProvider.of<UserBloc>(context)
+    .add(FetchRandomUser());  
+  }
 }
+}
+
