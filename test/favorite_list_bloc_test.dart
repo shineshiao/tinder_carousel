@@ -58,6 +58,21 @@ main() {
       );
 
       blocTest(
+        'emits [FavoriteListLoading, FavoriteListEmpty] when favorite list repository returns empty list',
+        build: () async {
+          when(favoriteListRepository.loadFavoriteList()).thenAnswer(
+            (_) => Future.value(new List<User>()),
+          );
+          return favoriteListBloc;
+        },
+        act: (bloc) => bloc.add(LoadFavoriteList()),
+        expect: [
+          FavoriteListLoading(),
+          FavoriteListEmpty()
+        ],
+      );
+
+      blocTest(
         'emits [FavoriteListLoading, FavoriteListError] when favorite list repository returns error',
         build: () async {
           when(favoriteListRepository.loadFavoriteList()).thenThrow("Error");
@@ -66,7 +81,7 @@ main() {
         act: (bloc) => bloc.add(LoadFavoriteList()),
         expect: [
           FavoriteListLoading(),
-          FavoriteListError(errorType: ErrorType.Common,userList: sampleUserList),
+          FavoriteListError(errorType: ErrorType.Common, userList: sampleUserList)
         ],
       );
     });
