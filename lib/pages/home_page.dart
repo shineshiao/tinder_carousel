@@ -62,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     subscription.close();
     favoriteListSubscription.close();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -113,6 +114,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   else {
                     if(direction == DismissDirection.startToEnd) {
                       BlocProvider.of<FavoriteListBloc>(context)
+                      .add(SaveFavoriteList(user: user));
+                      return false;
+                    } else {
+                      showNotify(context,NotifyStyle.snackbar, "Device offline, Can not find new user");
+                      return false;
+                    }
                   }
                    
                 },
