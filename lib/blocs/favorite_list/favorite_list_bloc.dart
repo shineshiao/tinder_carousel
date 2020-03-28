@@ -54,7 +54,7 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
         yield FavoriteListLoaded(userList: userList);
       }
     } catch (_) {
-      yield FavoriteListError(errorType: ErrorType.Common);
+      yield FavoriteListError(errorType: ErrorType.Common, userList: userList);
     }
   }
   Stream<FavoriteListState> _mapSaveFavoriteListToState(SaveFavoriteList event) async* {
@@ -63,12 +63,15 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
       if(!userList.contains(event.user)){
         userList.add(event.user);
         await favoriteListRepository.saveFavoriteList(userList);
+        yield FavoriteListSaveSuccess(userList: userList);
+        yield FavoriteListLoaded(userList: userList);
       }
       else {
-        yield FavoriteListError(errorType: ErrorType.Duplicate);
+        yield FavoriteListSaveError(errorType: ErrorType.Duplicate, userList:userList);
+        yield FavoriteListLoaded(userList: userList);
       }
     } catch (_) {
-      yield FavoriteListError(errorType: ErrorType.Common);
+      yield FavoriteListError(errorType: ErrorType.Common, userList: userList);
     }
     yield FavoriteListLoaded(userList: userList);
   }
@@ -77,9 +80,9 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
     try {
       userList = new List();
       await favoriteListRepository.clearFavoriteList();
-      yield FavoriteListLoaded(userList: userList);
+      yield FavoriteListEmpty();
     } catch (_) {
-      yield FavoriteListError(errorType: ErrorType.Common);
+      yield FavoriteListError(errorType: ErrorType.Common, userList : userList);
     }
   }
 }

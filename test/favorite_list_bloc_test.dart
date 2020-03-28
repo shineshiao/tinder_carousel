@@ -8,7 +8,6 @@ import 'package:mockito/mockito.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_bloc.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_event.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_state.dart';
-import 'package:tinder_carousel/blocs/user/user_bloc.dart';
 import 'package:tinder_carousel/models/models.dart';
 import 'package:tinder_carousel/repositories/favorite_list.dart';
 
@@ -59,7 +58,22 @@ main() {
       );
 
       blocTest(
-        'emits [FavoriteListLoading, FavoriteListError, FavoriteListLoaded] when favorite list repository returns error',
+        'emits [FavoriteListLoading, FavoriteListEmpty] when favorite list repository returns empty list',
+        build: () async {
+          when(favoriteListRepository.loadFavoriteList()).thenAnswer(
+            (_) => Future.value(new List<User>()),
+          );
+          return favoriteListBloc;
+        },
+        act: (bloc) => bloc.add(LoadFavoriteList()),
+        expect: [
+          FavoriteListLoading(),
+          FavoriteListEmpty()
+        ],
+      );
+
+      blocTest(
+        'emits [FavoriteListLoading, FavoriteListError] when favorite list repository returns error',
         build: () async {
           when(favoriteListRepository.loadFavoriteList()).thenThrow("Error");
           return favoriteListBloc;
@@ -67,14 +81,14 @@ main() {
         act: (bloc) => bloc.add(LoadFavoriteList()),
         expect: [
           FavoriteListLoading(),
-          FavoriteListError(errorType: ErrorType.Common),
+          FavoriteListError(errorType: ErrorType.Common, userList: sampleUserList)
         ],
       );
     });
 
     group('SaveFavoriteList', () {
       blocTest(
-        'emits [FavoriteListLoading, FavoriteListLoaded] when user add new user to list success',
+        'emits [FavoriteListLoading, FavoriteListSaveSuccess, FavoriteListLoaded] when user add new user to list',
         build: () async {
           when(favoriteListRepository.saveFavoriteList(sampleUserList)).thenAnswer(
             (_) => Future.value(sampleUserList),
@@ -84,21 +98,21 @@ main() {
         act: (bloc) => bloc.add(SaveFavoriteList(user: sampleUser)),
         expect: [
           FavoriteListLoading(),
+          FavoriteListSaveSuccess(userList: sampleUserList),
           FavoriteListLoaded(userList: sampleUserList),
         ],
       );
 
       blocTest(
-        'emits [FavoriteListLoading,FavoriteListError, FavoriteListLoaded] when user add new user to list fail',
+        'emits [FavoriteListLoading, FavoriteListError, FavoriteListLoaded] when user add new user to list fail',
         build: () async {
-          when(favoriteListRepository.saveFavoriteList(sampleUserList)).thenThrow("Error");
+          when(favoriteListRepository.saveFavoriteList(sampleUserList)).thenThrow("Duplicate");
           return favoriteListBloc;
         },
         act: (bloc) => bloc.add(SaveFavoriteList(user: sampleUser)),
         expect: [
           FavoriteListLoading(),
-          FavoriteListError(errorType: ErrorType.Common),
-          FavoriteListLoaded(userList: sampleUserList),
+          FavoriteListError(errorType: ErrorType.Common, userList: sampleUserList),
         ],
       );
     });

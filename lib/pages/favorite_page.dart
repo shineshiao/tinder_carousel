@@ -71,6 +71,19 @@ class _FavoritePageState extends State<FavoritePage> {
             if(state is FavoriteListEmpty) {
               return Center(child: new Text("Please swipe right on home page to add friend farvorite list"),);
             } 
+            if(state is FavoriteListError) {
+              if(state.errorType == ErrorType.Duplicate) {
+                userList = state.userList;
+                return ListView.separated(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: userList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return FavoriteItem(user: userList[index]);
+                  },
+                  separatorBuilder: (BuildContext context, int index) => const Divider(),
+                );    
+              }
+            } 
                return Center(child: new Text("Something Error"),);
           })
     );

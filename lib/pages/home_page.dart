@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:tinder_carousel/blocs/favorite_list/favorite_list_event.dart';
 import 'package:tinder_carousel/blocs/favorite_list/favorite_list_state.dart';
 import 'package:tinder_carousel/blocs/information/information_bloc.dart';
 import 'package:tinder_carousel/blocs/user/user_bloc.dart';
+import 'package:tinder_carousel/models/user.dart';
 import 'package:tinder_carousel/widgets/avatar.dart';
 import 'package:tinder_carousel/widgets/bottom_bar.dart';
 import 'package:tinder_carousel/widgets/favorite_button.dart';
@@ -23,8 +25,16 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+enum NotifyStyle {
+    snackbar,
+    dialog
+  }
+
 class _MyHomePageState extends State<MyHomePage> {
   Completer<void> _refreshCompleter;
+  ConnectivityResult _connectivityResult;
+  var subscription;
+  var favoriteListSubscription;
   @override
   void initState() {
     super.initState();
@@ -33,10 +43,31 @@ class _MyHomePageState extends State<MyHomePage> {
       .add(LoadFavoriteList());
     BlocProvider.of<UserBloc>(context)
       .add(FetchSampleUser());
+    subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      // Got a new connectivity status!
+      _connectivityResult = result;
+      print("_connectivityResult : " + _connectivityResult.toString());
+    });
+
+    favoriteListSubscription = BlocProvider.of<FavoriteListBloc>(context).listen((state){
+      if(state is FavoriteListSaveError && state.props[0] == ErrorType.Duplicate) {
+        showNotify(context,NotifyStyle.dialog, "This user already in favorite list.");
+      }
+      if(state is FavoriteListSaveSuccess) {
+        showNotify(context, NotifyStyle.dialog, "This user is saved to favorite list successfully.");
+      }
+    });
   }
 
   @override
+  void dispose() {
+    subscription.close();
+    favoriteListSubscription.close();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
+    
     int _counter = 0;
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -72,39 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 return new Dismissible(
                 resizeDuration: null,
-                onDismissed: (DismissDirection direction) {
-                  _counter ++;
-                  if(direction == DismissDirection.startToEnd) {
-                    BlocProvider.of<FavoriteListBloc>(context)
-                    .add(SaveFavoriteList(user: user));
-                    BlocProvider.of<FavoriteListBloc>(context).listen((state){
-                      if( state is FavoriteListError) {
-                        ErrorType errorType = state.props[0];
-                        if(errorType == ErrorType.Duplicate){
-                        Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          content: new Text("Duplicate User",
-                          textAlign: TextAlign.center,),
-                          backgroundColor: Colors.red,
-                          duration: Duration(milliseconds : 1000),
-                          behavior: SnackBarBehavior.floating,),
-                          );
-                        }
-                      }
-                    });
-                  } else {
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        content: new Text("Fetch new user",
-                        textAlign: TextAlign.center,),
-                        backgroundColor: Colors.lightBlue[200],
-                        duration: Duration(milliseconds : 1000),
-                        behavior: SnackBarBehavior.floating,),
-                        );
-                  }
-                  BlocProvider.of<UserBloc>(context)
-                    .add(FetchRandomUser());
-                },
+                confirmDismiss: (direction) => onConfirmDismiss(direction,user),
+                onDismissed: (direction) => onDismissed(context,direction),
                 child: Container(
                 //color: Colors.white,
               
@@ -163,6 +163,60 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FavoriteButton()
     );
   }
-
   
+  void showNotify(BuildContext context,NotifyStyle style, String text){
+  
+    if(style == NotifyStyle.snackbar) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: new Text(text,
+        textAlign: TextAlign.center,),
+        backgroundColor: Colors.lightBlue[200],
+        duration: Duration(milliseconds : 1000),
+        behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+    if(style == NotifyStyle.dialog) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context){
+            return AlertDialog(
+              title: Text("Notice"),
+              content: Text(text),
+            );
+        }
+      );
+    }
+  }
+
+  Future<bool> onConfirmDismiss(DismissDirection direction, User user) async {
+    if(_connectivityResult != ConnectivityResult.none) {
+      if(direction == DismissDirection.startToEnd) {
+        BlocProvider.of<FavoriteListBloc>(context)
+        .add(SaveFavoriteList(user: user));
+        return false;
+      }
+        return true;
+    }
+    else {
+      if(direction == DismissDirection.startToEnd) {
+        BlocProvider.of<FavoriteListBloc>(context)
+        .add(SaveFavoriteList(user: user));
+        return false;
+      } else {
+        showNotify(context,NotifyStyle.snackbar, "Device offline, Can not find new user");
+        return false;
+      }
+    }
+      
+  }
+  onDismissed(BuildContext context, DismissDirection direction) {   
+    if(direction == DismissDirection.endToStart) {
+      showNotify(context,NotifyStyle.snackbar, "Find new friend");
+        BlocProvider.of<UserBloc>(context)
+    .add(FetchRandomUser());  
+  }
 }
+}
+
