@@ -67,14 +67,14 @@ main() {
         act: (bloc) => bloc.add(LoadFavoriteList()),
         expect: [
           FavoriteListLoading(),
-          FavoriteListError(errorType: ErrorType.Common),
+          FavoriteListError(errorType: ErrorType.Common,userList: sampleUserList),
         ],
       );
     });
 
     group('SaveFavoriteList', () {
       blocTest(
-        'emits [FavoriteListLoading, FavoriteListLoaded] when user add new user to list success',
+        'emits [FavoriteListLoading, FavoriteListSaveSuccess, FavoriteListLoaded] when user add new user to list success',
         build: () async {
           when(favoriteListRepository.saveFavoriteList(sampleUserList)).thenAnswer(
             (_) => Future.value(sampleUserList),
@@ -84,6 +84,7 @@ main() {
         act: (bloc) => bloc.add(SaveFavoriteList(user: sampleUser)),
         expect: [
           FavoriteListLoading(),
+          FavoriteListSaveSuccess(userList: sampleUserList),
           FavoriteListLoaded(userList: sampleUserList),
         ],
       );
@@ -97,7 +98,7 @@ main() {
         act: (bloc) => bloc.add(SaveFavoriteList(user: sampleUser)),
         expect: [
           FavoriteListLoading(),
-          FavoriteListError(errorType: ErrorType.Common),
+          FavoriteListError(errorType: ErrorType.Common,userList: sampleUserList),
           FavoriteListLoaded(userList: sampleUserList),
         ],
       );
